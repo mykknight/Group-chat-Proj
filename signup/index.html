@@ -23,6 +23,67 @@
             <input type="submit" id="signup" value="SIGN UP">
         </form>
 
+        <p1 id="p1"></p1>
+
     </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js"></script>
+    <script>
+        const btn = document.getElementById('signup');
+
+
+        btn.addEventListener('click',signup);
+
+
+
+        async function signup(e) {
+            const p = document.getElementById('p1');
+            try{ 
+                p.innerHTML = '';
+                e.preventDefault();
+
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const no = document.getElementById('no').value;
+                const password = document.getElementById('psd').value;
+
+                if(name == '' || email == '' || no == '' || password == ''){
+                    alert('kindly fill the details');
+                }
+                else {
+
+                    const myObj = {
+                        UserName: name,
+                        Email: email,
+                        PhoneNo: no,
+                        Password: password
+                    }
+
+                    await axios.post('http://localhost:3000/user/signup', myObj)
+                    .then(res => {
+                        console.log(res);
+                        alert(`${res.data.msg}`);
+                    })
+                    .catch(err => {
+                        throw new Error(err);
+                    })
+                }
+            }
+
+            catch(err) {
+                console.log(err);
+                p.appendChild(document.createTextNode('User Already Exist'));
+                alert('User Already Exist');
+                p.style.color='red';
+                p.style.fontStyle = 'bold';
+                p.style.backgroundColor = 'white';
+                p.style.font
+            }
+        }
+
+
+
+
+    </script>
 </body>
 </html>

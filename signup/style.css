@@ -1,19 +1,20 @@
 body {
     background-image: url('https://images.unsplash.com/photo-1676745737239-8c60b47cb794?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=436&q=80');
     background-repeat: no-repeat;
-    background-size: 700px;
     background-position: center;
     background-color: rgb(149, 112, 153);
-    height: 700px;
-    width:1500px;
+    font-family: sans-serif;
+    box-sizing: border-box;
+    padding: 5%;
 }
 
 .container{
 
-    width: 400px;
+    width: 300px;
     box-shadow: 0 0 3px 0 rgba(0,0,0,0.3);
-    padding: 20px;
-    margin: 10% auto 0;
+    padding: 10px;
+    margin: 2% auto 0;
+    object-position: center;
 }
 
 .input {
@@ -31,5 +32,13 @@ body {
     width: 98%;
     border: 1px solid #999;
     color: white;
-    background-color: red;
+    background-color: rgb(64, 255, 0);
+}
+
+#p1 {
+    color: red;
+    font-size: larger;
+    background-color: lightskyblue;
+    font-weight: bold;
+  
 }
