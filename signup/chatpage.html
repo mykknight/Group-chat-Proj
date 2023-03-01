@@ -22,12 +22,37 @@
     <script>
         const btn = document.getElementById('msg-send');
         btn.addEventListener('click', SendMsg);
+        const token = localStorage.getItem('token');
+
+        setInterval(() => {
+            document.getElementById('p2').innerHTML = '';
+            reload();
+        }, 3000);
+        document.addEventListener('DOMContentLoaded', reload());
+
+        async function reload() {
+
+            try {
+                document.getElementById('p2').innerHTML = '';
+                const res = await axios.get('http://localhost:3000/chat/get-chat', {headers: {"Authorization": token}})
+                console.log(res);
+                let name = '';
+                let person = localStorage.getItem('user');
+                res.data.forEach(element => {
+                    if(element.name == person) name='You';
+                    else name = element.name;
+                    prtmsg(name, element.message);
+                });
+            }
+            catch(err) {
+                console.log(err);
+            }  
+        }
 
         async function SendMsg(e) {
             e.preventDefault();
             const Msg = document.getElementById('chat').value;
             if(Msg == '') return alert('Message is empty');
-            const token = localStorage.getItem('token');
             let myObj = {Msg: Msg};
 
             await axios.post('http://localhost:3000/chat/send-chat', myObj, {headers: {"Authorization": token}})
