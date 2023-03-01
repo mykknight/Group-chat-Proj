@@ -1,0 +1,9 @@
+body {
+    background-color: bisque;
+}
+
+#msg-form {
+    margin-top: 70%;
+    margin-left: 40%;
+    margin-bottom: 30%;
+}

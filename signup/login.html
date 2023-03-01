@@ -48,6 +48,7 @@
                             console.log(res);
                             alert(`${res.data.msg}`);
                             localStorage.setItem('token', res.data.token);
+                            window.location.href = './chatpage.html';
                         })
                         .catch((err) => {
                             const msg = err.response.data.msg;
