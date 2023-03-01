@@ -9,12 +9,44 @@
     <link rel="stylesheet" href="chatstyle.css">
 </head>
 <body>
+    <h1 style="font-weight: bold; background-position: center;">Chat App</h1>
     <div class="chat-box">
-        <h1 style="font-weight: bold;margin-left: 42%;margin-right: 40%;">Chat App</h1>
+        <h1 style="font-weight: bold">Messages</h1>
+        <p2 id="p2"></p2>
         <form id="msg-form">
             <input type="text" class="chat" id="chat">
             <button id="msg-send">SEND</button>;
         </form>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js"></script>
+    <script>
+        const btn = document.getElementById('msg-send');
+        btn.addEventListener('click', SendMsg);
+
+        async function SendMsg(e) {
+            e.preventDefault();
+            const Msg = document.getElementById('chat').value;
+            if(Msg == '') return alert('Message is empty');
+            const token = localStorage.getItem('token');
+            let myObj = {Msg: Msg};
+
+            await axios.post('http://localhost:3000/chat/send-chat', myObj, {headers: {"Authorization": token}})
+            .then(res => {
+                console.log(res);
+                const nm = res.data.user.UserName;
+                const mg = res.data.data;
+                prtmsg(nm,mg);
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        }
+
+        function prtmsg(name,msg) {
+            const p2 = document.getElementById('p2');
+            p2.appendChild(document.createTextNode(`${name}: ${msg}`));
+            p2.appendChild(document.createElement('br'));
+        }
+    </script>
 </body>
 </html>

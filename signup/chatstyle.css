@@ -3,7 +3,18 @@ body {
 }
 
 #msg-form {
-    margin-top: 70%;
-    margin-left: 40%;
-    margin-bottom: 30%;
+    position: absolute;
+    bottom: 1px;
+    right: 0;
+}
+
+.chat-box{
+
+    width: 500px;
+    height: 500px;
+    box-shadow: 0 0 3px 0 rgba(0,0,0,0.3);
+    padding: 15px;
+    margin: 5% auto 0;
+    position: relative;
+    background-color: lightblue;
 }
