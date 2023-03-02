@@ -23,7 +23,7 @@
         const btn = document.getElementById('msg-send');
         btn.addEventListener('click', SendMsg);
         const token = localStorage.getItem('token');
-
+        let flag = 1;
         setInterval(() => {
             document.getElementById('p2').innerHTML = '';
             reload();
@@ -33,16 +33,63 @@
         async function reload() {
 
             try {
+
                 document.getElementById('p2').innerHTML = '';
-                const res = await axios.get('http://localhost:3000/chat/get-chat', {headers: {"Authorization": token}})
+                let data = JSON.parse(localStorage.getItem('chats'));
+                let lastmsgid = localStorage.getItem('lastmsgid') || 0;
+                console.log(lastmsgid);
+                const res = await axios.get(`http://localhost:3000/chat/get-chat?lsmsgid=${lastmsgid}`, {headers: {"Authorization": token}});
                 console.log(res);
+                let finalchat = [];
+                if(res.data.length != 0){
+                    console.log(res.data[res.data.length-1].msgid);
+                    localStorage.setItem('lastmsgid', res.data[res.data.length-1].msgid);
+                    if(data) finalchat = [...data, ...res.data];
+                    else finalchat = res.data;
+                    console.log('finalchat>>', finalchat);
+                    localStorage.setItem('chats', JSON.stringify(finalchat));
+                }
+                else {
+                    finalchat = data;
+                }
                 let name = '';
                 let person = localStorage.getItem('user');
-                res.data.forEach(element => {
-                    if(element.name == person) name='You';
-                    else name = element.name;
-                    prtmsg(name, element.message);
-                });
+                finalchat.forEach(element => {
+                        if(element.name == person) name='You';
+                        else name = element.name;
+                        prtmsg(name, element.message);
+                    });
+                // console.log(res.data[res.data.length-1].msgid);
+                // localStorage.setItem('lastmsgid', res.data[res.data.length-1].msgid);
+                // let finalchat = data.concat(res.data);
+                // console.log('finalchat>>', finalchat);
+                // localStorage.setItem('chats', JSON.stringify(finalchat));
+                // let name = '';
+                // let person = localStorage.getItem('user');
+                // finalchat.forEach(element => {
+                //     if(element.name == person) name='You';
+                //     else name = element.name;
+                //     prtmsg(name, element.message);
+                // });
+                // console.log('Flag>>', flag);
+                // if(flag == 1) {
+                //     const res = await axios.get('http://localhost:3000/chat/get-chat', {headers: {"Authorization": token}});
+                //     localStorage.setItem('chats',JSON.stringify(res.data));
+                //     flag = 0;
+                // }
+                // else {
+
+                // }
+                //const res = await axios.get('http://localhost:3000/chat/get-chat', {headers: {"Authorization": token}})
+                //const res = JSON.parse(localStorage.getItem('chats'));
+                // console.log(res);
+                // let name = '';
+                // let person = localStorage.getItem('user');
+                // res.forEach(element => {
+                //     if(element.name == person) name='You';
+                //     else name = element.name;
+                //     prtmsg(name, element.message);
+                // });
             }
             catch(err) {
                 console.log(err);
@@ -50,21 +97,25 @@
         }
 
         async function SendMsg(e) {
-            e.preventDefault();
-            const Msg = document.getElementById('chat').value;
-            if(Msg == '') return alert('Message is empty');
-            let myObj = {Msg: Msg};
 
-            await axios.post('http://localhost:3000/chat/send-chat', myObj, {headers: {"Authorization": token}})
-            .then(res => {
+            try {
+                e.preventDefault();
+                const Msg = document.getElementById('chat').value;
+                if(Msg == '') return alert('Message is empty');
+                let myObj = {Msg: Msg};
+
+                const res = await axios.post('http://localhost:3000/chat/send-chat', myObj, {headers: {"Authorization": token}})
                 console.log(res);
-                const nm = res.data.user.UserName;
+                flag = 1;
+                let nm = '';
+                if(localStorage.getItem('user') == res.data.user.UserName) nm = 'You';
+                else nm = res.data.user.UserName;
                 const mg = res.data.data;
                 prtmsg(nm,mg);
-            })
-            .catch(err => {
+            }
+            catch(err) {
                 console.log(err);
-            })
+            }
         }
 
         function prtmsg(name,msg) {
