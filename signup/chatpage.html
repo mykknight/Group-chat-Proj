@@ -23,7 +23,6 @@
         const btn = document.getElementById('msg-send');
         btn.addEventListener('click', SendMsg);
         const token = localStorage.getItem('token');
-        let flag = 1;
         setInterval(() => {
             document.getElementById('p2').innerHTML = '';
             reload();
@@ -37,28 +36,35 @@
                 document.getElementById('p2').innerHTML = '';
                 let data = JSON.parse(localStorage.getItem('chats'));
                 let lastmsgid = localStorage.getItem('lastmsgid') || 0;
-                console.log(lastmsgid);
-                const res = await axios.get(`http://localhost:3000/chat/get-chat?lsmsgid=${lastmsgid}`, {headers: {"Authorization": token}});
-                console.log(res);
-                let finalchat = [];
-                if(res.data.length != 0){
-                    console.log(res.data[res.data.length-1].msgid);
-                    localStorage.setItem('lastmsgid', res.data[res.data.length-1].msgid);
-                    if(data) finalchat = [...data, ...res.data];
-                    else finalchat = res.data;
-                    console.log('finalchat>>', finalchat);
-                    localStorage.setItem('chats', JSON.stringify(finalchat));
-                }
-                else {
-                    finalchat = data;
-                }
                 let name = '';
                 let person = localStorage.getItem('user');
-                finalchat.forEach(element => {
+                if(data) {
+                    data.forEach(element => {
                         if(element.name == person) name='You';
                         else name = element.name;
                         prtmsg(name, element.message);
                     });
+                }
+                console.log(lastmsgid);
+                const res = await axios.get(`http://localhost:3000/chat/get-chat?lsmsgid=${lastmsgid}`, {headers: {"Authorization": token}});
+                console.log(res);
+                console.log(res.data.length);
+                let finalchat = [];
+                if(res.data.length != 0){
+                    console.log(res.data[res.data.length-1].msgid);
+                    localStorage.setItem('lastmsgid', res.data[res.data.length-1].msgid);
+                    finalchat = res.data;
+                    console.log('finalchat>>', finalchat);
+                    if(data) localStorage.setItem('chats', JSON.stringify([...data,...finalchat]));
+                    else localStorage.setItem('chats',JSON.stringify(finalchat));
+                    finalchat.forEach(element => {
+                        if(element.name == person) name='You';
+                        else name = element.name;
+                        prtmsg(name, element.message);
+                    });
+                }
+                // let name = '';
+                // let person = localStorage.getItem('user');
                 // console.log(res.data[res.data.length-1].msgid);
                 // localStorage.setItem('lastmsgid', res.data[res.data.length-1].msgid);
                 // let finalchat = data.concat(res.data);
