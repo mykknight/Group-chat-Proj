@@ -4,17 +4,117 @@ body {
 
 #msg-form {
     position: absolute;
-    bottom: 1px;
+    bottom: 20px;
     right: 0;
 }
 
-.chat-box{
-
-    width: 500px;
-    height: 500px;
+.group-box {
+    float: left;
+    height: 300px;
+    width: 300px;
     box-shadow: 0 0 3px 0 rgba(0,0,0,0.3);
-    padding: 15px;
-    margin: 5% auto 0;
+    background-color:rgb(238, 244, 66);
+    padding: 20px;
+    margin: 10% auto 0;
+    border-color: black;
     position: relative;
-    background-color: lightblue;
+}
+
+.chat-box {
+    width: 500px; 
+    float:right; 
+    height:900px; 
+    background:rgb(94, 220, 234); 
+    margin:20px auto;
+    padding: 20px;
+    opacity: 0;
+    pointer-events:none;
+
+ 
+}
+
+.chat-box.hidden {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#creategroup {
+    background-color: cadetblue;
+    border: 0;
+    border-radius: 5px;
+    box-shadow: 0 0 3px 0 rgba(0,0,0,0.3);
+    color: black;
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    
+}
+
+#addgrp {
+    background-color: thistle;
+    color: black;
+    border-radius: 5px;
+    box-shadow: 0 0 3px 0 rgba(0,0,0,0.3);
+    margin: 10%;
+}
+
+.popup-input {
+    border-radius: 20px;
+    padding: 5px;
+    margin: 10px 0;
+    width: 70%;
+    border: 1px solid #999;
+}
+
+.popup-lable {
+    font-size: larger;
+    font-weight: bold;
+}
+
+.popup-1 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events:none;
+
+}
+
+.popup-1.show {
+    opacity: 1;
+    pointer-events: auto;
+    background-color: rgba(0,0,0,0.3);
+}
+
+.popup-form {
+    background-color: rgb(221, 134, 250);
+    width: 400px;
+    max-width: 100%;
+    padding: 30px 50px;
+    border-radius: 5px;
+    box-shadow: 0 0 3px 0 rgba(0,0,0,0.3);
+    text-align: center;
+    
+}
+
+.popup-table {
+    margin: 3%;
+    font-weight: bold;
+    font-size: larger;
+}
+
+#all-users {
+    margin: 1%;
+}
+
+.group-buttons {
+    margin: 2%;
+    border-radius: 10px;
+    box-shadow: 0 0 3px 0 rgba(0,0,0,0.3);
+    border: 0;
 }
