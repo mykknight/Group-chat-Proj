@@ -50,7 +50,7 @@ body {
     
 }
 
-#addgrp {
+#addgrp, #close-pop {
     background-color: thistle;
     color: black;
     border-radius: 5px;
@@ -92,7 +92,7 @@ body {
 }
 
 .popup-form {
-    background-color: rgb(221, 134, 250);
+    background-color: rgb(105, 235, 233);
     width: 400px;
     max-width: 100%;
     padding: 30px 50px;
@@ -112,9 +112,96 @@ body {
     margin: 1%;
 }
 
-.group-buttons {
+.group-buttons, .makeadmin {
+    margin: 2%;
+    border-radius: 10px;
+    box-shadow: 0 0 3px 0 rgba(0,0,0,0.3);
+    border: 0;
+    width: 100px, auto;
+    font-weight: bold;
+}
+
+.group-details-box {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events:none;
+}
+
+.group-details-box.show {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    pointer-events: auto;
+    background-color: rgba(0,0,0,0.3);
+
+}
+
+.detail-buttons, .removeuser {
+    margin: 2%;
+    border-radius: 10px;
+    box-shadow: 0 0 3px 0 rgba(0,0,0,0.3);
+    border: 0;
+    width: auto;
+    font-weight: bold;
+    background-color: brown;
+    color: aliceblue;
+}
+
+.detail-box {
+    width: 600px;
+    height: 300px;
+    background-color: rgb(83, 173, 140);
+    padding: 30px 50px;
+    border-radius: 5px;
+    box-shadow: 0 0 3px 0 rgba(0,0,0,0.3);
+    text-align: center;
+    font-weight: bold;
+}
+
+.filter-form {
+    margin: 3%;
+    border-radius: 10px;
+}
+
+#save-details {
+    position: absolute;
+    top: 450px;
+    right: 430px;
+    margin: 2%;
+    border-radius: 10px;
+    box-shadow: 0 0 3px 0 rgba(0,0,0,0.3);
+    border: 0;
+    width: 100px;
+    font-weight: bold;
+}
+
+#search-filter, #filter-input {
     margin: 2%;
     border-radius: 10px;
     box-shadow: 0 0 3px 0 rgba(0,0,0,0.3);
     border: 0;
 }
+
+.alreadyadmin {
+    margin: 2%;
+    border-radius: 10px;
+    background-color: green;
+    color: black;
+    box-shadow: 0 0 3px 0 rgba(0,0,0,0.3);
+    border: 0;
+    width: 100px, auto;
+    font-weight: bold;
+    pointer-events: none;
+}
+

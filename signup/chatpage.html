@@ -17,9 +17,10 @@
         <div class="popup-1" id="popup-1">
             <form class="popup-form">
                 <label for="groupname" class="popup-lable">Name a Group:</label><br>
-                <input type="text" class="popup-input" id="grpname" required><br>
+                <input type="text" class="popup-input" id="grpname"><br>
                 <ui id="all-users"></ui>
                 <button id="addgrp">Add Group</button>
+                <button id="close-pop">Close</button>
             </form>
         </div>
     </div>
@@ -31,9 +32,19 @@
             <button id="msg-send">SEND</button>;
         </form>
     </div>
+
+    <div class="group-details-box" id="group-details-box">
+        <div class="detail-box" id="detail-box">
+            <h1 id="grp-heading">Heading</h1>
+            <form class="filter-form">
+                <input type="text" id="filter-input">
+                <button id="search-filter">Add to Group</button><br>
+            </form>
+            <ui id="group-userlist"></ui>
+            <button id="save-details">Save</button>
+        </div>
+    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js"></script>
-
-
 
 
     <script>
@@ -43,6 +54,7 @@
         const popup = document.getElementById('popup-1');
         const addgrp = document.getElementById('addgrp');
         const btn = document.getElementById('msg-send');
+        const closepop = document.getElementById('close-pop');
         btn.addEventListener('click', SendMsg);
         const token = localStorage.getItem('token');
         const ui = document.getElementById('all-users');
@@ -51,6 +63,10 @@
         localStorage.setItem('activegroup', null);
 
         addgrp.addEventListener('click', createGroup);
+
+        closepop.addEventListener('click', () => {
+            popup.classList.remove('show');
+        })
 
         open.addEventListener('click', () => {
             ui.innerHTML = '';
@@ -142,19 +158,19 @@
 
         async function getGroups(e) {
             document.getElementById('group-list').innerHTML = '';
-            let lastgrpid = 0;
-            const groups = JSON.parse(localStorage.getItem('groupss'));
-            if(groups) {
-                lastgrpid = groups.length;
-                groups.forEach(printgroup);
-            } 
-            const grps = await axios.get(`http://localhost:3000/user/getgroups/${lastgrpid}`, {headers: {"Authorization": token}});
+            // let lastgrpid = 0;
+            // const groups = JSON.parse(localStorage.getItem('groupss'));
+            // if(groups) {
+            //     lastgrpid = groups.length;
+            //     groups.forEach(printgroup);
+            // } 
+            const grps = await axios.get(`http://localhost:3000/user/getgroups`, {headers: {"Authorization": token}});
             if(grps.data.length != 0) {
                 grps.data.forEach(printgroup);
-                let newdata = [];
-                if(groups) newdata = [...groups, ...grps.data];
-                else newdata = grps.data;
-                localStorage.setItem('groupss',JSON.stringify(newdata));
+               // let newdata = [];
+                //if(groups) newdata = [...groups, ...grps.data];
+               // else newdata = grps.data;
+                localStorage.setItem('groupss',JSON.stringify(grps.data));
             }
 
             function printgroup(group) {
@@ -166,6 +182,14 @@
                 button.value = `${group.GroupName}`;
                 button.addEventListener('click', getGroupchat);
                 li.appendChild(button);
+                const groupDetails = document.createElement('input');
+                groupDetails.type = 'button';
+                groupDetails.className = 'detail-buttons';
+                groupDetails.value = 'Group Details';
+                groupDetails.name = `${group.GroupName}`;
+                groupDetails.id = `${group.id}`;
+                groupDetails.addEventListener('click', detailpopup);
+                li.appendChild(groupDetails);
                 ui.append(li);
             }
         }
@@ -212,6 +236,7 @@
                 getGroups();
                 getusers();
                 if(localStorage.getItem('activegroup')!= 'null') getGroupchat();
+                if(localStorage.getItem('activegrpdetail')!= 'null') detailpopup();
 
             //     document.getElementById('p2').innerHTML = '';
             //     let data = JSON.parse(localStorage.getItem('chats'));
@@ -303,5 +328,6 @@
             localStorage.setItem('users', JSON.stringify(users.data));
         }
     </script>
+    <script src="details.js"></script>
 </body>
 </html>
